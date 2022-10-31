@@ -100,7 +100,8 @@ ifeq ($(ARCH),arm)
 endif
 
 DEFINES		= -DDEFAULT_LOADER='L"$(DEFAULT_LOADER)"' \
-		  -DDEFAULT_LOADER_CHAR='"$(DEFAULT_LOADER)"'
+		  -DDEFAULT_LOADER_CHAR='"$(DEFAULT_LOADER)"' \
+		  -DREQUIRE_TPM
 
 INCLUDES	= -nostdinc \
 		  -I$(TOPDIR)/Cryptlib -I$(TOPDIR)/Cryptlib/Include \

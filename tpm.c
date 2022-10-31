@@ -103,7 +103,7 @@ static EFI_STATUS tpm_locate_protocol(efi_tpm_protocol_t **tpm,
 
 	return EFI_NOT_FOUND;
 }
-
+volatile int nn = 7;
 static EFI_STATUS tpm_log_event_raw(EFI_PHYSICAL_ADDRESS buf, UINTN size,
 				    UINT8 pcr, const CHAR8 *log, UINTN logsize,
 				    UINT32 type, CHAR8 *hash)
@@ -118,6 +118,9 @@ static EFI_STATUS tpm_log_event_raw(EFI_PHYSICAL_ADDRESS buf, UINTN size,
 	if (EFI_ERROR(efi_status)) {
 #ifdef REQUIRE_TPM
 		perror(L"TPM logging failed: %r\n", efi_status);
+		// if (size == 200488) {
+		// 	while(nn);
+		// }
 		return efi_status;
 #else
 		if (efi_status != EFI_NOT_FOUND) {

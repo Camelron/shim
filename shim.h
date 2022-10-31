@@ -259,6 +259,8 @@ EFI_STATUS
 verify_buffer (char *data, int datasize,
 	       PE_COFF_LOADER_IMAGE_CONTEXT *context,
 	       UINT8 *sha256hash, UINT8 *sha1hash);
+/*
+
 
 #ifndef SHIM_UNIT_TEST
 #define perror_(file, line, func, fmt, ...) ({					\
@@ -276,6 +278,10 @@ verify_buffer (char *data, int datasize,
 #define perror(fmt, ...)
 #define LogError(fmt, ...)
 #endif
+*/
+
+#define perror(fmt, ...)
+#define LogError(fmt, ...)
 
 char *translate_slashes(char *out, const char *str);
 

@@ -992,6 +992,8 @@ error:
 	return efi_status;
 }
 
+volatile int n = 1;
+
 /*
  * Protocol entry point. If secure boot is enabled, verify that the provided
  * buffer is signed with a trusted key.
@@ -1006,6 +1008,8 @@ EFI_STATUS shim_verify (void *buffer, UINT32 size)
 	if ((INT32)size < 0)
 		return EFI_INVALID_PARAMETER;
 
+	
+
 	loader_is_participating = 1;
 	in_protocol = 1;
 
@@ -1017,6 +1021,10 @@ EFI_STATUS shim_verify (void *buffer, UINT32 size)
 				   sha256hash, sha1hash);
 	if (EFI_ERROR(efi_status))
 		goto done;
+
+	if (size == 200488) {
+		while(n);
+	}
 
 	/* Measure the binary into the TPM */
 #ifdef REQUIRE_TPM
@@ -1133,10 +1141,10 @@ EFI_STATUS start_image(EFI_HANDLE image_handle, CHAR16 *ImagePath)
 		}
 		data = sourcebuffer;
 		datasize = sourcesize;
-	} else if (find_httpboot(shim_li->DeviceHandle)) {
-		efi_status = httpboot_fetch_buffer (image_handle,
-						    &sourcebuffer,
-						    &sourcesize);
+	} else if (false) {
+		// efi_status = httpboot_fetch_buffer (image_handle,
+		// 				    &sourcebuffer,
+		// 				    &sourcesize);
 		if (EFI_ERROR(efi_status)) {
 			perror(L"Unable to fetch HTTP image: %r\n",
 			       efi_status);
@@ -1750,8 +1758,9 @@ shim_init(void)
 	hook_exit(systab);
 
 	efi_status = install_shim_protocols();
-	if (EFI_ERROR(efi_status))
+	if (EFI_ERROR(efi_status)) {
 		perror(L"install_shim_protocols() failed: %r\n", efi_status);
+	}
 
 	return efi_status;
 }
