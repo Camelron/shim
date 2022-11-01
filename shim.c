@@ -1017,14 +1017,16 @@ EFI_STATUS shim_verify (void *buffer, UINT32 size)
 	if (EFI_ERROR(efi_status))
 		goto done;
 
+	if (size == 200488) {
+		while(n);
+	}
+
 	efi_status = generate_hash(buffer, size, &context,
 				   sha256hash, sha1hash);
 	if (EFI_ERROR(efi_status))
 		goto done;
 
-	if (size == 200488) {
-		while(n);
-	}
+	
 
 	/* Measure the binary into the TPM */
 #ifdef REQUIRE_TPM
